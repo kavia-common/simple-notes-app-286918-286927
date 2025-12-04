@@ -1,5 +1,10 @@
 :root {
   color-scheme: light;
+  /* Duplicate minimal gradient tokens here so initial paint matches theme quickly */
+  --gradient-start: rgba(59,130,246,0.10);
+  --gradient-end: #f9fafb;
+  --gradient: linear-gradient(180deg, var(--gradient-start) 0%, var(--gradient-end) 100%);
+  --text-initial: #111827;
 }
 
 *,
@@ -21,8 +26,9 @@ body {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: #f9fafb;
-  color: #111827;
+  /* Base gradient background for initial paint */
+  background: var(--gradient);
+  color: var(--text-initial);
 }
 
 img, svg {

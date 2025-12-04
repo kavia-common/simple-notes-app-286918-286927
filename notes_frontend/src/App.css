@@ -11,20 +11,39 @@
   --color-muted: #6b7280;
   --color-border: #e5e7eb;
   --focus-ring: 0 0 0 3px rgba(59,130,246,0.35);
+
+  /* Gradient theme variables (from-3b82f6/10 to-gray-50) */
+  --gradient-start: rgba(59,130,246,0.10);
+  --gradient-end: #f9fafb; /* gray-50 */
+  --gradient: linear-gradient(180deg, var(--gradient-start) 0%, var(--gradient-end) 100%);
+
+  /* Subtle primary button gradient */
+  --btn-primary-start: #3b82f6;
+  --btn-primary-end: #2f6fe0; /* slightly darker for contrast */
 }
 
 [data-theme="dark"] {
+  /* Preserve dark mode; keep flat backgrounds for readability */
   --color-bg: #0b1220;
   --color-surface: #111827;
   --color-text: #f3f4f6;
   --color-muted: #9ca3af;
   --color-border: #1f2937;
+
+  /* Dark mode gradient fallback (very subtle) */
+  --gradient-start: rgba(59,130,246,0.12);
+  --gradient-end: #0b1220;
+  --gradient: linear-gradient(180deg, var(--gradient-start) 0%, var(--gradient-end) 100%);
+
+  --btn-primary-start: #3b82f6;
+  --btn-primary-end: #2563eb;
 }
 
 /* Base layout */
 .app-root {
   min-height: 100vh;
-  background: var(--color-bg);
+  /* Apply soft gradient to overall app background */
+  background: var(--gradient);
   color: var(--color-text);
 }
 
@@ -40,7 +59,8 @@
   position: sticky;
   top: 0;
   z-index: 20;
-  background: linear-gradient(180deg, rgba(59,130,246,0.06), rgba(249,250,251,0.95) 60%);
+  /* Use gradient at header as well; add translucency for layered feel */
+  background: var(--gradient);
   backdrop-filter: saturate(120%) blur(6px);
   border-bottom: 1px solid var(--color-border);
 }
@@ -74,7 +94,7 @@
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
-  transition: box-shadow .15s ease, transform .06s ease, background .15s;
+  transition: box-shadow .15s ease, transform .06s ease, background .15s, border-color .15s;
 }
 
 .btn:hover {
@@ -96,10 +116,17 @@
   font-size: 13px;
 }
 
+/* Primary with subtle vertical gradient for depth; maintain >= WCAG AA on text */
 .btn-primary {
-  background: var(--color-primary);
-  color: white;
+  background: linear-gradient(180deg, var(--btn-primary-start), var(--btn-primary-end));
+  color: #ffffff;
   border-color: transparent;
+}
+.btn-primary:hover {
+  filter: brightness(1.03);
+}
+.btn-primary:active {
+  filter: brightness(0.97);
 }
 
 .btn-secondary {
@@ -107,7 +134,7 @@
 }
 
 .btn-danger {
-  background: var(--color-error);
+  background: #EF4444;
   border-color: transparent;
   color: white;
 }
@@ -121,7 +148,7 @@
   border-radius: 10px;
   padding: 10px 12px;
   font-size: 14px;
-  transition: border-color .15s ease, box-shadow .15s ease;
+  transition: border-color .15s ease, box-shadow .15s ease, background .15s ease;
 }
 
 .input:focus, .textarea:focus, .select:focus {
@@ -141,7 +168,8 @@
   position: sticky;
   top: 72px;
   z-index: 10;
-  background: var(--color-bg);
+  /* Slight gradient wash behind sticky toolbar */
+  background: var(--gradient);
   padding: 12px 0;
 }
 
@@ -154,6 +182,7 @@
 
 /* Cards and panels */
 .card {
+  /* Keep content surfaces readable: solid white (or dark surface) */
   background: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: 14px;
@@ -243,10 +272,14 @@
   border-radius: 8px;
   padding: 8px;
   cursor: pointer;
-  transition: background .12s ease, box-shadow .12s ease;
+  transition: background .12s ease, box-shadow .12s ease, border-color .12s ease;
 }
 .icon-btn:hover {
   background: rgba(0,0,0,0.03);
+}
+.icon-btn:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
 }
 .icon {
   width: 16px;
